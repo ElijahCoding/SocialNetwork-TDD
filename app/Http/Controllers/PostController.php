@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
+    public function index()
+    {
+
+    }
+    
     public function store(Request $request)
     {
         $data = request()->validate([

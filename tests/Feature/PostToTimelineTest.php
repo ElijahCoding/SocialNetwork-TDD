@@ -35,6 +35,25 @@ class PostToTimelineTest extends TestCase
 
        $post = Post::first();
 
-       $response->assertStatus(201);
+       $response->assertStatus(201)
+                ->assertJson([
+                    'data' => [
+                        'type' => 'posts',
+                        'post_id' => $post->id,
+                        'attributes' => [
+                            'posted_by' => [
+                                'data' => [
+                                    'attributes' => [
+                                        'name' => $user->name,
+                                    ]
+                                ]
+                            ],
+                            'body' => 'Testing Body'
+                        ]
+                    ],
+                    'links' => [
+                        'self' => url('/posts/' . $post->id)
+                    ]
+                ]);
    }
 }

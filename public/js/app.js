@@ -20048,7 +20048,7 @@ var render = function() {
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "text-sm text-gray-600" }, [
-              _vm._v("12 mins")
+              _vm._v(_vm._s(_vm.post.data.attributes.posted_at))
             ])
           ])
         ]),
@@ -20058,7 +20058,14 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _vm._m(1),
+      _vm.post.data.attributes.image
+        ? _c("div", { staticClass: "w-full" }, [
+            _c("img", {
+              staticClass: "w-full",
+              attrs: { src: _vm.post.data.attributes.image, alt: "post image" }
+            })
+          ])
+        : _vm._e(),
       _vm._v(" "),
       _c(
         "div",
@@ -20087,7 +20094,7 @@ var render = function() {
             _c("p", [_vm._v("Jane Smith and 137 others")])
           ]),
           _vm._v(" "),
-          _vm._m(2)
+          _vm._m(1)
         ]
       ),
       _vm._v(" "),
@@ -20171,21 +20178,6 @@ var staticRenderFns = [
           src:
             "https://cdn.pixabay.com/photo/2014/07/09/10/04/man-388104_960_720.jpg",
           alt: "profile image for user"
-        }
-      })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "w-full" }, [
-      _c("img", {
-        staticClass: "w-full",
-        attrs: {
-          src:
-            "https://images.pexels.com/photos/132037/pexels-photo-132037.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-          alt: "post image"
         }
       })
     ])

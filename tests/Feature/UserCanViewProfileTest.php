@@ -33,4 +33,10 @@ class UserCanViewProfileTest extends TestCase
                     ]
                 ]);
     }
+
+    /** @test */
+    public function a_user_can_fetch_posts_for_a_profile()
+    {
+        $this->withoutExceptionHandling();
+    }
 }

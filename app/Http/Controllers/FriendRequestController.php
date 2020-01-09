@@ -28,4 +28,30 @@ class FriendRequestController extends Controller
                     ->first()
         );
     }
+
+    /** @test */
+    public function a_user_can_send_a_friend_request_only_once()
+    {
+
+    }
+
+    /** @test */
+    public function only_valid_users_can_be_friend_requested()
+    {
+        $this->actingAs($user = factory(User::class)->create(), 'api');
+
+        $response = $this->post('/api/friend-request', [
+            'friend_id' => '12345'
+        ])->assertStatus(404);
+
+        $this->assertNull(Friend::first());
+
+        $response->assertJson([
+            'errors' => [
+                'code' => 404,
+                'title' => 'User Not Found',
+                'detail' => 'Unable to locate the user with the given information.',
+            ]
+        ]);
+    }
 }

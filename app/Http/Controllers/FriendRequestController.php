@@ -32,6 +32,8 @@ class FriendRequestController extends Controller
     /** @test */
     public function a_user_can_send_a_friend_request_only_once()
     {
+        $this->actingAs($user = factory(User::class)->create(), 'api');
+
 
     }
 
@@ -54,4 +56,5 @@ class FriendRequestController extends Controller
             ]
         ]);
     }
+
 }

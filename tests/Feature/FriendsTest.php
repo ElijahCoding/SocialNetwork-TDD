@@ -40,4 +40,29 @@ class FriendsTest extends TestCase
             ]
         ]);
     }
+
+    /** @test */
+    public function friend_requests_can_be_accepted()
+    {
+        $this->withoutExceptionHandling();
+
+        $this->actingAs($user = factory(User::class)->create(), 'api');
+
+        $anotherUser = factory(User::class)->create();
+
+        $this->post('/api/friend-request', [
+            'friend_id' => $anotherUser->id
+        ])->assertStatus(200);
+
+        $response = $this->actingAs($anotherUser, 'api')
+                         ->post('/api/friend-request-response', [
+                             'user_id' => $user->id,
+                             'state' => 1,
+                         ])->assertStatus(200);
+
+        $friendRequest = Friend::first();
+        $this->assertNotNull($friendRequest->confirmed_at);
+
+
+    }
 }

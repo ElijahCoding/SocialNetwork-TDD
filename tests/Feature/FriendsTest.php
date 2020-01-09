@@ -79,4 +79,32 @@ class FriendsTest extends TestCase
             ]
         ]);
     }
+
+    /** @test */
+    public function only_valid_friend_requests_can_be_accepted()
+    {
+        $anotherUser = factory(User::class)->create();
+
+        $response = $this->actingAs($anotherUser, 'api')
+            ->post('/api/friend-request-response', [
+                'user_id' => 123,
+                'status' => 1
+            ])->assertStatus(404);
+
+        $this->assertNull(Friend::first());
+
+        $response->assertJson([
+            'errors' => [
+                'code' => 404,
+                'title' => 'Friend Request Not Found',
+                'detail' => 'Unable to locate the friend request with the given information.',
+            ]
+        ]);
+    }
+
+    /** @test */
+    public function only_the_recipient_can_accept_a_friend_request()
+    {
+
+    }
 }

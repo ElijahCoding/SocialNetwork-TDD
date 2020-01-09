@@ -42,6 +42,7 @@ class FriendsTest extends TestCase
         ]);
     }
 
+
     /** @test */
     public function friend_requests_can_be_accepted()
     {
@@ -130,5 +131,37 @@ class FriendsTest extends TestCase
                 'detail' => 'Unable to locate the friend request with the given information.',
             ]
         ]);
+    }
+
+    /** @test */
+    public function only_valid_users_can_be_friend_requested()
+    {
+        $this->actingAs($user = factory(User::class)->create(), 'api');
+
+        $response = $this->post('/api/friend-request', [
+            'friend_id' => '12345'
+        ])->assertStatus(404);
+
+        $this->assertNull(Friend::first());
+
+        $response->assertJson([
+            'errors' => [
+                'code' => 404,
+                'title' => 'User Not Found',
+                'detail' => 'Unable to locate the user with the given information.',
+            ]
+        ]);
+    }
+
+    /** @test */
+    public function a_friend_id_is_required_for_friend_requests()
+    {
+        $response = $this->actingAs($user = factory(\App\User::class)->create(), 'api')
+            ->post('/api/friend-request', [
+                'friend_id' => '',
+            ]);
+
+        $responseString = json_decode($response->getContent(), true);
+        $this->assertArrayHasKey('friend_id', $responseString['errors']['meta']);
     }
 }

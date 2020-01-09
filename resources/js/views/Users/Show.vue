@@ -14,6 +14,8 @@
 
         <div v-if="postLoading">Loading posts...</div>
         <Post v-else v-for="post in posts.data" :key="post.data.post_id" :post="post" />
+        <p v-if=" ! postLoading && posts.data.length < 1 ">No posts found. Get started.</p>
+
     </div>
 </template>
 

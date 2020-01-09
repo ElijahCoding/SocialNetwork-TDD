@@ -8,7 +8,7 @@
                 <div class="w-32">
 
                 </div>
-                <p class="text-2xl text-gray-100 ml-4">{{ user.data.attributes.name }}</p>
+                <p class="text-2xl text-gray-100 ml-4" v-if="userLoading">{{ user.data.attributes.name }}</p>
             </div>
         </div>
 

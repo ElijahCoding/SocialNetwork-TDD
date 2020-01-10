@@ -20,16 +20,17 @@
             </div>
         </div>
 
-        <div v-if="postLoading">Loading posts...</div>
+        <div v-if="status.posts === 'loading'">Loading posts...</div>
 
-        <Post v-else v-for="post in posts.data" :key="post.data.post_id" :post="post" />
+        <div v-else-if="posts.length < 1">No posts found. Get started...</div>
 
-        <p v-if=" ! postLoading && posts.data.length < 1 ">No Posts found.</p>
+        <Post v-else v-for="(post, postKey) in posts.data" :key="postKey" :post="post" />
     </div>
 </template>
 
 <script>
     import Post from '../../components/Post'
+    import { mapGetters } from 'vuex'
 
     export default {
         name: "Show",
@@ -38,37 +39,16 @@
             Post
         },
 
-        data: () => {
-            return {
-                user: null,
-                posts: null,
-                userLoading: true,
-                postLoading: true
-            }
+        mounted () {
+            this.$store.dispatch('fetchUser', this.$route.params.userId);
         },
 
-        mounted () {
-            axios.get('/api/users/' + this.$route.params.userId)
-                 .then(res => {
-                     this.user = res.data
-                 })
-                 .catch(error => {
-                     console.log('Unable to fetch the user from server')
-                 })
-                 .finally(() => {
-                     this.userLoading = false
-                 })
-
-            axios.get('/api/users/' + this.$route.params.userId + '/posts')
-                .then(res => {
-                    this.posts = res.data
-                })
-                .catch(error => {
-                    console.log('Unable to fetch posts')
-                })
-                .finally(() => {
-                    this.postLoading = false
-                })
+        computed: {
+            ...mapGetters({
+                user: 'user',
+                status: 'status',
+                posts: 'posts'
+            })
         }
     }
 </script>

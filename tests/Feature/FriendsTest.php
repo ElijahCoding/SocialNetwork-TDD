@@ -266,4 +266,17 @@ class FriendsTest extends TestCase
                 ]
             ]);
     }
+
+    /** @test */
+    public function a_user_id_is_required_for_ignoring_a_friend_request_responses()
+    {
+        $response = $this->actingAs($user = factory(\App\User::class)->create(), 'api')
+            ->delete('/api/friend-request-response/delete', [
+                'user_id' => ''
+            ])->assertStatus(422);
+
+        $responseString = json_decode($response->getContent(), true);
+
+        $this->assertArrayHasKey('user_id', $responseString['errors']['meta']);
+    }
 }

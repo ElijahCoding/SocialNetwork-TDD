@@ -1927,7 +1927,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Nav",
@@ -2114,6 +2113,15 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Post__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../components/Post */ "./resources/js/components/Post.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -19942,24 +19950,11 @@ var render = function() {
             ]
           ),
           _vm._v(" "),
-          _c(
-            "router-link",
-            {
-              staticClass:
-                "px-6 border-b-2 border-white h-full flex items-center ",
-              attrs: { to: "/users/" + _vm.authUser.data.user_id }
-            },
-            [
-              _c("img", {
-                staticClass: "w-8 h-8 object-cover rounded-full",
-                attrs: {
-                  src:
-                    "https://cdn.pixabay.com/photo/2014/07/09/10/04/man-388104_960_720.jpg",
-                  alt: "profile image for user"
-                }
-              })
-            ]
-          ),
+          _c("router-link", {
+            staticClass:
+              "px-6 border-b-2 border-white h-full flex items-center ",
+            attrs: { to: "/users/" + _vm.authUser.data.user_id }
+          }),
           _vm._v(" "),
           _c(
             "router-link",
@@ -20379,45 +20374,68 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "flex flex-col items-center" },
-    [
-      _c("div", { staticClass: "relative mb-8" }, [
-        _c("div", { staticClass: "w-100 h-64 overflow-hidden z-10" }),
-        _vm._v(" "),
-        _c(
-          "div",
-          {
-            staticClass:
-              "absolute flex items-center bottom-0 left-0 -mb-8 ml-12 z-20"
-          },
-          [
-            _c("div", { staticClass: "w-32" }),
+  return _vm.status.user === "success" && _vm.user
+    ? _c(
+        "div",
+        { staticClass: "flex flex-col items-center" },
+        [
+          _c("div", { staticClass: "relative mb-8" }, [
+            _c("div", { staticClass: "w-100 h-64 overflow-hidden z-10" }),
             _vm._v(" "),
-            _vm.userLoading
-              ? _c("p", { staticClass: "text-2xl text-gray-100 ml-4" }, [
+            _c(
+              "div",
+              {
+                staticClass:
+                  "absolute flex items-center bottom-0 left-0 -mb-8 ml-12 z-20"
+              },
+              [
+                _c("div", { staticClass: "w-32" }),
+                _vm._v(" "),
+                _c("p", { staticClass: "text-2xl text-gray-100 ml-4" }, [
                   _vm._v(_vm._s(_vm.user.data.attributes.name))
                 ])
-              : _vm._e()
-          ]
-        )
-      ]),
-      _vm._v(" "),
-      _vm.postLoading
-        ? _c("div", [_vm._v("Loading posts...")])
-        : _vm._l(_vm.posts.data, function(post) {
-            return _c("Post", { key: post.data.post_id, attrs: { post: post } })
-          }),
-      _vm._v(" "),
-      !_vm.postLoading && _vm.posts.data.length < 1
-        ? _c("p", [_vm._v("No posts found. Get started.")])
-        : _vm._e()
-    ],
-    2
-  )
+              ]
+            ),
+            _vm._v(" "),
+            _vm._m(0)
+          ]),
+          _vm._v(" "),
+          _vm.postLoading
+            ? _c("div", [_vm._v("Loading posts...")])
+            : _vm._l(_vm.posts.data, function(post) {
+                return _c("Post", {
+                  key: post.data.post_id,
+                  attrs: { post: post }
+                })
+              }),
+          _vm._v(" "),
+          !_vm.postLoading && _vm.posts.data.length < 1
+            ? _c("p", [_vm._v("No Posts found.")])
+            : _vm._e()
+        ],
+        2
+      )
+    : _vm._e()
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass:
+          "absolute flex items-center bottom-0 right-0 mb-4 mr-12 z-20"
+      },
+      [
+        _c("button", { staticClass: "py-1 px-3 bg-gray-400 rounded" }, [
+          _vm._v("\n                Add Friend\n            ")
+        ])
+      ]
+    )
+  }
+]
 render._withStripped = true
 
 

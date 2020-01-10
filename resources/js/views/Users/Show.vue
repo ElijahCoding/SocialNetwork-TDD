@@ -1,21 +1,30 @@
 <template>
-    <div class="flex flex-col items-center">
+    <div class="flex flex-col items-center" v-if="status.user === 'success' && user">
         <div class="relative mb-8">
             <div class="w-100 h-64 overflow-hidden z-10">
 
             </div>
+
             <div class="absolute flex items-center bottom-0 left-0 -mb-8 ml-12 z-20">
                 <div class="w-32">
 
                 </div>
-                <p class="text-2xl text-gray-100 ml-4" v-if="userLoading">{{ user.data.attributes.name }}</p>
+
+                <p class="text-2xl text-gray-100 ml-4">{{ user.data.attributes.name }}</p>
+            </div>
+
+            <div class="absolute flex items-center bottom-0 right-0 mb-4 mr-12 z-20">
+                <button class="py-1 px-3 bg-gray-400 rounded">
+                    Add Friend
+                </button>
             </div>
         </div>
 
         <div v-if="postLoading">Loading posts...</div>
-        <Post v-else v-for="post in posts.data" :key="post.data.post_id" :post="post" />
-        <p v-if=" ! postLoading && posts.data.length < 1 ">No posts found. Get started.</p>
 
+        <Post v-else v-for="post in posts.data" :key="post.data.post_id" :post="post" />
+
+        <p v-if=" ! postLoading && posts.data.length < 1 ">No Posts found.</p>
     </div>
 </template>
 

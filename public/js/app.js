@@ -1927,6 +1927,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Nav",
@@ -2159,6 +2160,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   mounted: function mounted() {
     this.$store.dispatch('fetchUser', this.$route.params.userId);
+    this.$store.dispatch('fetchUserPosts', this.$route.params.userId);
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapGetters"])({
     user: 'user',
@@ -20392,7 +20394,7 @@ var render = function() {
           _vm._v(" "),
           _vm.status.posts === "loading"
             ? _c("div", [_vm._v("Loading posts...")])
-            : _vm.posts.length < 1
+            : _vm.posts.data.length < 1
             ? _c("div", [_vm._v("No posts found. Get started...")])
             : _vm._l(_vm.posts.data, function(post, postKey) {
                 return _c("Post", { key: postKey, attrs: { post: post } })
@@ -37014,6 +37016,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_user__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/user */ "./resources/js/store/modules/user.js");
 /* harmony import */ var _modules_title__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/title */ "./resources/js/store/modules/title.js");
 /* harmony import */ var _modules_profile__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/profile */ "./resources/js/store/modules/profile.js");
+/* harmony import */ var _modules_posts__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/posts */ "./resources/js/store/modules/posts.js");
+
 
 
 
@@ -37024,9 +37028,78 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
   modules: {
     User: _modules_user__WEBPACK_IMPORTED_MODULE_2__["default"],
     Title: _modules_title__WEBPACK_IMPORTED_MODULE_3__["default"],
-    Profile: _modules_profile__WEBPACK_IMPORTED_MODULE_4__["default"]
+    Profile: _modules_profile__WEBPACK_IMPORTED_MODULE_4__["default"],
+    Posts: _modules_posts__WEBPACK_IMPORTED_MODULE_5__["default"]
   }
 }));
+
+/***/ }),
+
+/***/ "./resources/js/store/modules/posts.js":
+/*!*********************************************!*\
+  !*** ./resources/js/store/modules/posts.js ***!
+  \*********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+var state = {
+  posts: null,
+  postsStatus: null,
+  postMessage: ''
+};
+var getters = {
+  posts: function posts(state) {
+    return state.posts;
+  },
+  newsStatus: function newsStatus(state) {
+    return {
+      postsStatus: state.postsStatus
+    };
+  },
+  postMessage: function postMessage(state) {
+    return state.postMessage;
+  }
+};
+var actions = {
+  fetchNewsPosts: function fetchNewsPosts(_ref) {
+    var commit = _ref.commit,
+        state = _ref.state;
+    commit('setPostsStatus', 'loading');
+    axios.get('/api/posts').then(function (res) {
+      commit('setPosts', res.data);
+      commit('setPostsStatus', 'success');
+    })["catch"](function (error) {
+      commit('setPostsStatus', 'error');
+    });
+  },
+  fetchUserPosts: function fetchUserPosts(_ref2, userId) {
+    var commit = _ref2.commit,
+        dispatch = _ref2.dispatch;
+    commit('setPostsStatus', 'loading');
+    axios.get('/api/users/' + userId + '/posts').then(function (res) {
+      commit('setPosts', res.data);
+      commit('setPostsStatus', 'success');
+    })["catch"](function (error) {
+      commit('setPostsStatus', 'error');
+    });
+  }
+};
+var mutations = {
+  setPosts: function setPosts(state, posts) {
+    state.posts = posts;
+  },
+  setPostsStatus: function setPostsStatus(state, status) {
+    state.postsStatus = status;
+  }
+};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  state: state,
+  getters: getters,
+  actions: actions,
+  mutations: mutations
+});
 
 /***/ }),
 

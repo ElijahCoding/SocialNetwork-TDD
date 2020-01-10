@@ -22,7 +22,7 @@
 
         <div v-if="status.posts === 'loading'">Loading posts...</div>
 
-        <div v-else-if="posts.length < 1">No posts found. Get started...</div>
+        <div v-else-if="posts.data.length < 1">No posts found. Get started...</div>
 
         <Post v-else v-for="(post, postKey) in posts.data" :key="postKey" :post="post" />
     </div>
@@ -41,6 +41,7 @@
 
         mounted () {
             this.$store.dispatch('fetchUser', this.$route.params.userId);
+            this.$store.dispatch('fetchUserPosts', this.$route.params.userId);
         },
 
         computed: {

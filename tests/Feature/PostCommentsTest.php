@@ -58,4 +58,24 @@ class PostCommentsTest extends TestCase
             ]
         ]);
     }
+
+    /** @test */
+    public function a_body_is_required_to_leave_a_comment_on_a_post()
+    {
+        $this->actingAs($user = factory(User::class)->create(), 'api');
+        $post = factory(Post::class)->create(['id' => 123]);
+
+        $response = $this->post('/api/posts/' . $post->id . '/comment', [
+            'body' => ''
+        ])->assertStatus(422);
+
+        $responseString = json_decode($response->getContent(), true);
+        $this->assertArrayHasKey('body', $responseString['errors']['meta']);
+    }
+
+    /** @test */
+    public function posts_are_returned_with_comments()
+    {
+
+    }
 }

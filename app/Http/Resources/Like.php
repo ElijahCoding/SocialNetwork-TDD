@@ -21,7 +21,7 @@ class Like extends JsonResource
                 'attributes' => []
             ],
             'links' => [
-                'self' => url('/posts/'.$this->pivot->post_id),
+                'self' => url('/posts/' . $this->pivot->post_id),
             ]
         ];
     }

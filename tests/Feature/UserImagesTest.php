@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\User;
+use App\UserImage;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -15,7 +16,7 @@ class UserImagesTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        
+
         Storage::fake('public');
     }
 
@@ -33,5 +34,19 @@ class UserImagesTest extends TestCase
             'height' => 300,
             'location' => 'cover',
         ])->assertStatus(201);
+
+        Storage::disk('public')->assertExists('user-images/' . $file->hashName());
+        $userImage = UserImage::first();
+
+        $this->assertEquals('user-images/'.$file->hashName(), $userImage->path);
+        $this->assertEquals('850', $userImage->width);
+        $this->assertEquals('300', $userImage->height);
+        $this->assertEquals('cover', $userImage->location);
+        $this->assertEquals($user->id, $userImage->user_id);
+
+        $response->assertJson([
+
+        ]);
+
     }
 }

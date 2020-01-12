@@ -1,9 +1,13 @@
 <template>
-    <div>start</div>
+    <div>sdflksjdflkjsd</div>
 </template>
 
 <script>
     export default {
-        name: 'Start'
+        name: "Start"
     }
 </script>
+
+<style scoped>
+
+</style>

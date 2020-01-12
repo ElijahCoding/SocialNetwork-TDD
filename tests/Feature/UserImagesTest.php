@@ -24,6 +24,7 @@ class UserImagesTest extends TestCase
     public function images_can_be_uploaded()
     {
         $this->withoutExceptionHandling();
+
         $this->actingAs($user = factory(User::class)->create(), 'api');
 
         $file = UploadedFile::fake()->image('user-image.jpg');
@@ -45,7 +46,19 @@ class UserImagesTest extends TestCase
         $this->assertEquals($user->id, $userImage->user_id);
 
         $response->assertJson([
-
+            'data' => [
+                'type' => 'user-images',
+                'user_image_id' => $userImage->id,
+                'attributes' => [
+                    'path' => url($userImage->path),
+                    'width' => $userImage->width,
+                    'height' => $userImage->height,
+                    'location' => $userImage->location,
+                ]
+            ],
+            'links' => [
+                'self' => url('/users/' . $user->id),
+            ]
         ]);
 
     }
